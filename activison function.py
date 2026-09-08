@@ -1,3 +1,5 @@
+from platform import win32_ver
+
 import tensorflow as tf
 
 
@@ -45,7 +47,9 @@ checkpoint = tf.train.Checkpoint(
     w1=w1,
     b1=b1,
     w2=w2,
-    b2=b2
+    b2=b2,
+    w3=w3,
+    b3=b3
 )
 
 manager = tf.train.CheckpointManager(
