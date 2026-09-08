@@ -38,6 +38,25 @@ b3 = tf.Variable(tf.zeros((1,)))
 
 learning_rat = 0.001
 
+
+
+
+checkpoint = tf.train.Checkpoint(
+    w1=w1,
+    b1=b1,
+    w2=w2,
+    b2=b2
+)
+
+manager = tf.train.CheckpointManager(
+    checkpoint,
+    "./checkpointer",
+    max_to_keep=5
+)
+
+
+
+
 for epoc in range(100000):
     with tf.GradientTape() as Tape:
         z1 = tf.matmul(x_train,w1) + b1
@@ -55,6 +74,8 @@ for epoc in range(100000):
     b2.assign_sub(learning_rat * grads[3])
     w3.assign_sub(learning_rat * grads[4])
     b3.assign_sub(learning_rat * grads[5])
+
+
 
     active1 = tf.reduce_mean(tf.cast(a1 > 0, tf.float32))
     active2 = tf.reduce_mean(tf.cast(a2 > 0, tf.float32))
@@ -74,3 +95,4 @@ for epoc in range(100000):
             "active_1:", active1,
             "active_2:", active2
         )
+        manager.save()
