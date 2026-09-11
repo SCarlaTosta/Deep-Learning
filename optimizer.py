@@ -4,47 +4,36 @@ import tensorflow as tf
 
 
 
-x = tf.constant([[1],
-                 [2],
-                 [3],
-                 [4],
-                 [5],
-                 [6],
-                 [7],
-                 [8],
-                 [9],
-                 [10],
-                 [11],
-                 [12],
-                 [13],
-                 [14],
-                 [15],
-                 [16],],dtype= tf.float32)
+x = []
 
+for i in range(1, 31):
+    x.append([i])
+
+x = tf.constant(x,dtype=tf.float32)
 
 y = x ** 2
 
-x_train = x / 16.0
-y_train = y / 256.0
+x_train = x / 30.0
+y_train = y / 900.0
 
 tf.random.set_seed(12)
+n = 64
+w1 = tf.Variable(tf.random.normal((1,n),stddev=0.1))
+b1 = tf.Variable(tf.zeros((n,)))
 
-w1 = tf.Variable(tf.random.normal((1,32),stddev=0.1))
-b1 = tf.Variable(tf.zeros((32,)))
+w2 = tf.Variable(tf.random.normal((n,n),stddev=0.1))
+b2 = tf.Variable(tf.zeros((n,)))
 
-w2 = tf.Variable(tf.random.normal((32,32),stddev=0.1))
-b2 = tf.Variable(tf.zeros((32,)))
-
-w3 = tf.Variable(tf.random.normal((32,1),stddev=0.1))
+w3 = tf.Variable(tf.random.normal((n,1),stddev=0.1))
 b3 = tf.Variable(tf.zeros((1,)))
 
 
 
 
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
+#optimizer = tf.keras.optimizers.RMSprop(learning_rate=0.001)
 
-optimizer = tf.keras.optimizers.SGD(learning_rate=0.001)
-learning_rat = 0.001
-
+#optimizer = tf.keras.optimizers.SGD(learning_rate=0.001,momentum=0.9) #
 
 
 
